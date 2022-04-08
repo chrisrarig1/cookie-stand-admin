@@ -1,83 +1,92 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { useState } from 'react';
 
 const Home: NextPage = () => {
+  const [store, setStoreInfo] = useState({})
+
+  function storeSubmit(event){
+    event.preventDefault();
+    
+    const store ={
+      location: event.target.location.value,
+      max: event.target.max.value,
+      min: event.target.min.value,
+      ave: event.target.ave.value,
+    }
+    setStoreInfo(store);
+  }
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className ="bg-emerald-50">
       <Head>
-        <title>Create Next App</title>
+        <title>Cookie Stand</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+      <header className='flex items-center justify-between p-4 bg-green-500 text-3xl font-medium font-sans'>
+        <h1 >Cookie Stand Admin</h1>
+      </header>
+      <main >
+        <form className ="bg-green-300 px-4 py-3  my-5 mx-48 rounded-md" onSubmit={storeSubmit}>
+          <legend className="text-center font-semibold text-xl		">Create Cookie Stand</legend>
+          <div className="md:flex md:items-center mb-6">
+          <div className="">
+            <label className="block md:text-right mb-1 md:mb-0 pr-2" >
+              Location
+            </label>
+          </div>
+            <div className="md:w-full py-4">
+              <input className="w-full" type="text" name="location"></input>
+            </div>
+          </div>
+          <div className="flex justify-evenly  mb-2">
+            <div className=" md:w-1/3  mb-6 md:mb-0">
+              <label className="block text-justify px-1  ">
+                Minimum Customers per Hour
+              </label>
+              <input className="w-11/12" type="number" name="min" ></input>
+            </div>
+            <div className=" md:w-1/3  mb-6 md:mb-0">
+              <label className="block text-base text-justify px-1">
+                Maximum Customers per Hour
+              </label>
+              <input className="w-11/12" type="number" name="max"></input>
+            </div>
+            <div className=" md:w-1/3 px-1 mb-6 md:mb-0">
+              <label className="block text-justify px-5 ">
+                Average Cookies per Sale
+              </label>
+              <input className="w-11/12" type="number" name="ave"></input>
+            </div>
+            <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 bg-green-500 text-center  ">
+              <button className='m-4' >Create</button>
+            </div>
+          </div>
+        </form>
+        <table className='table-auto my-5 mx-auto border-collapse border-2 border-gray-500'>
+          <thead>
+            <tr>
+              <th className="px-4 py-2 border border-gray-400  text-gray-800">Location</th>
+              <th className="px-4 py-2 border border-gray-400  text-gray-800">MinCustomers</th>
+              <th className="px-4 py-2 border border-gray-400  text-gray-800">MaxCustomers</th>
+              <th className="px-4 py-2 border border-gray-400  text-gray-800">AvgCookies</th>
+            </tr>
+          </thead>
+          <tbody>
+    
+            <tr>
+              <td className="border border-gray-400 px-4 py-2">{store.location}</td>
+              <td className="border border-gray-400 px-4 py-2">{store.min}</td>
+              <td className="border border-gray-400 px-4 py-2">{store.max}</td>
+              <td className="border border-gray-400 px-4 py-2">{store.ave}</td>
+            </tr>
+          </tbody>
+          
+        </table>
       </main>
 
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
+      <footer className='bg-green-500 p-4'>
+        <p>&#169;2021</p>
       </footer>
     </div>
   )
