@@ -5,8 +5,13 @@ import Header from '../components/header';
 import Head from '../components/head';
 import Form from '../components/store-form';
 import Table from '../components/report-table';
+import Login from '../components/login-form';
+import { useAuth } from '../contexts/auth';
+import useResource from '../hooks/useResource'
 
 const Home: NextPage = () => {
+  const { user, login, logout } = useAuth();
+  const { resources, loading, createResource, deleteResource } = useResource();
   const [stores, setStoreInfo] = useState([
     {
       location: 'Home',
@@ -15,7 +20,9 @@ const Home: NextPage = () => {
       ave: 0,
     }
   ])
+  // function handleLogin(event){
 
+  // }
   function storeSubmit(event){
     event.preventDefault();
     
@@ -31,11 +38,20 @@ const Home: NextPage = () => {
   return (
     <div className ="bg-emerald-50">
       <Head />
-      <Header/>
+      <Header user={user}logout={logout}/>
+      {user ?(
       <main >
         <Form storeSubmit={storeSubmit}/>
         {stores.length > 1 ? <Table storeInfo={stores}/>:<h2 className='text-center py-px'>No Cookie Stands Available</h2>}
       </main>
+
+      )
+      :(
+        <Login login = {login}/>
+
+      )
+      
+      }
       <Footer />
     </div>
   )
