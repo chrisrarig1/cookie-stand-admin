@@ -12,14 +12,14 @@ import useResource from '../hooks/useResource'
 const Home: NextPage = () => {
   const { user, login, logout } = useAuth();
   const { resources, loading, createResource, deleteResource } = useResource();
-  const [stores, setStoreInfo] = useState([
-    {
-      location: 'Home',
-      max: 0,
-      min: 0,
-      ave: 0,
-    }
-  ])
+  // const [stores, setStoreInfo] = useState([
+  //   {
+  //     location: 'Home',
+  //     max: 0,
+  //     min: 0,
+  //     ave: 0,
+  //   }
+  // ])
   // function handleLogin(event){
 
   // }
@@ -28,11 +28,12 @@ const Home: NextPage = () => {
     
     const store ={
       location: event.target.location.value,
-      max: event.target.max.value,
-      min: event.target.min.value,
-      ave: event.target.ave.value,
+      max: parseInt(event.target.max.value),
+      min: parseInt(event.target.min.value),
+      ave: parseFloat(event.target.ave.value),
+      owner: user.id,
     }
-    setStoreInfo([...stores,store]);
+    createResource(store);
   }
 
   return (
@@ -41,8 +42,8 @@ const Home: NextPage = () => {
       <Header user={user}logout={logout}/>
       {user ?(
       <main >
-        <Form storeSubmit={storeSubmit}/>
-        {stores.length > 1 ? <Table storeInfo={stores}/>:<h2 className='text-center py-px'>No Cookie Stands Available</h2>}
+        <Form storeSubmit={storeSubmit} createResource={createResource} user={user}/>
+        <Table  resources={resources || []} loading={loading} onDelete={deleteResource}/>
       </main>
 
       )
@@ -52,7 +53,10 @@ const Home: NextPage = () => {
       )
       
       }
-      <Footer />
+      {user ?(
+      <Footer resources={resources} />):
+      (<p></p>)
+      }
     </div>
   )
 }
